@@ -1,0 +1,13 @@
+<HTML>
+<link rel='stylesheet' href='/static/css/main1.css'>
+<body>
+        <div class="todo-header">
+        <h2>ToDo List</h2>
+        <br>
+        <br>
+        {{range .}}
+        <label>{{.Name}}</label>
+        <input type="hidden" value="{{.ID}}" name="ID">
+        {{end}}
+</body>
+</HTML>

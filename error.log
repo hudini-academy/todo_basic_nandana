@@ -1,0 +1,1 @@
+ERROR	2024/06/06 19:41:55 helpers.go:15: sql: Scan error on column index 0, name "id": destination not a pointer

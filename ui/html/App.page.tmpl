@@ -1,0 +1,72 @@
+<HTML>
+<link rel='stylesheet' href='/static/css/main1.css'>
+<body>
+        <div class="todo-header">
+        <h2>ToDo List</h2>
+         
+            {{range .Tasks}} 
+            {{range $key, $value := .Errors}}        
+ <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{$value}}
+            </div>
+            {{end}}
+            {{end}}
+</div>
+ <nav> 
+            <!-- Update the navigation to include signup, login and 
+            logout links --> 
+            <div> 
+                <a href='/'>Home</a>  
+            </div> 
+            <div> 
+                <a href='/user/signup'>Signup</a> 
+                <a href='/user/login'>Login</a> 
+                <form action='/user/logout' method='POST'> 
+                    <button>Logout</button> 
+                </form> 
+            </div> 
+        </nav> 
+        <!--<img src="/images/notebook.gif" height="50px" />-->
+        <div class="todo-body">
+        <nav>
+        {{if .Flash}}
+        <div class='flash'>{{.Flash}}</div>
+        {{end}}</div><div>
+        <form action="/Add" method="post">
+            <input
+                type="text"
+                name="todoText"
+                class="todo-input"
+                placeholder="Add your items"
+            />
+            </nav>
+            <input
+                type="submit"
+                value="add"
+            />
+        </form>
+        <h1>Your task</h1>
+        
+        {{range .Tasks}}
+        <div>
+        <form action="/delete?{{.ID}}" method="post">
+            <label>{{.Name}}</label>
+            <input type="hidden" value="{{.ID}}" name="ID">
+            <input type="submit" value="Delete">
+            </form>
+            <form action="/Update?id={{.ID}}" method="post">
+              <input type="hidden" value="{{.ID}}" name="ID">
+            <input type="submit" value="Update" > 
+                <input type="text" name="update_name">
+        </form>
+       <div>
+        {{end}}
+        
+       
+            
+            </div>
+            <h5 id="Alert"></h5>
+
+     </body>
+</HTML>
