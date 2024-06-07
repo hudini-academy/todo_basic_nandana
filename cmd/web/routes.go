@@ -18,6 +18,8 @@ func (a *application) routes() http.Handler { //http.ServeMux changed to http.ha
 	mux.Get("/user/login", a.session.Enable(http.HandlerFunc(a.loginUserForm)))
 	mux.Post("/user/login", a.session.Enable(http.HandlerFunc(a.loginUser)))
 	mux.Post("/user/logout", a.session.Enable(http.HandlerFunc(a.logoutUser)))
+	mux.Get("/special", a.session.Enable(http.HandlerFunc(a.special)))
+	mux.Post("/specialDelete", a.session.Enable(http.HandlerFunc(a.specialDelete)))
 
 	fileServer := http.FileServer(http.Dir("./ui/static"))       //serves files out of the "./ui/static" directory
 	mux.Get("/static/", http.StripPrefix("/static", fileServer)) //strip the prefix /static from the url and passes to fileserver

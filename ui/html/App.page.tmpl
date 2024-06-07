@@ -4,20 +4,12 @@
         <div class="todo-header">
         <h2>ToDo List</h2>
          
-            {{range .Tasks}} 
-            {{range $key, $value := .Errors}}        
- <div class="alert">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            {{$value}}
-            </div>
-            {{end}}
-            {{end}}
+            
 </div>
  <nav> 
-            <!-- Update the navigation to include signup, login and 
-            logout links --> 
             <div> 
                 <a href='/'>Home</a>  
+                <a href='/special'>Special</a>
             </div> 
             <div> 
                 <a href='/user/signup'>Signup</a> 
@@ -27,12 +19,13 @@
                 </form> 
             </div> 
         </nav> 
-        <!--<img src="/images/notebook.gif" height="50px" />-->
         <div class="todo-body">
         <nav>
         {{if .Flash}}
         <div class='flash'>{{.Flash}}</div>
-        {{end}}</div><div>
+        {{end}}</div>
+        <div>
+        
         <form action="/Add" method="post">
             <input
                 type="text"
@@ -40,7 +33,7 @@
                 class="todo-input"
                 placeholder="Add your items"
             />
-            </nav>
+        </nav>
             <input
                 type="submit"
                 value="add"
@@ -50,9 +43,9 @@
         
         {{range .Tasks}}
         <div>
-        <form action="/delete?{{.ID}}" method="post">
+        <form action="/delete?{{.Name}}" method="post">
             <label>{{.Name}}</label>
-            <input type="hidden" value="{{.ID}}" name="ID">
+            <input type="hidden" value="{{.Name}}" name="Name">
             <input type="submit" value="Delete">
             </form>
             <form action="/Update?id={{.ID}}" method="post">
@@ -60,13 +53,6 @@
             <input type="submit" value="Update" > 
                 <input type="text" name="update_name">
         </form>
-       <div>
         {{end}}
-        
-       
-            
-            </div>
-            <h5 id="Alert"></h5>
-
      </body>
 </HTML>

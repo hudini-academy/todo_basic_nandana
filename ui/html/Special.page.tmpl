@@ -1,0 +1,23 @@
+<HTML>
+<title>Special</title>
+<link rel='stylesheet' href='/static/css/main1.css'>
+<body> 
+<form action='/special' method='POST' novalidate> 
+<H1 >Special:</H1>
+     {{range .Task_specials}}
+        <div>
+        <form action="/specialdelete?{{.Name}}" method="post">
+            <label>{{.Name}}</label>
+            <input type="hidden" value="{{.Name}}" name="Name">
+            <input type="submit" value="Delete">
+        </form>
+        <form action="/Update?id={{.ID}}" method="post">
+            <input type="hidden" value="{{.ID}}" name="ID">
+            <input type="submit" value="Update" > 
+            <input type="text" name="update_name">
+        </form>
+       </div>
+    {{end}} 
+    </form>
+</body>
+</HTML>

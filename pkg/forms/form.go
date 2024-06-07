@@ -3,7 +3,7 @@ package forms
 import (
 	"fmt"
 	"net/url"
-	"regexp" // New import
+	"regexp"
 	"strings"
 	"unicode/utf8"
 )
@@ -40,10 +40,7 @@ func (f *Form) MaxLength(field string, d int) {
 	}
 }
 
-// Implement a PermittedValues method to check that a specific field in the form
-// matches one of a set of specific permitted values. If the check fails
-// then add the appropriate message to the form errors.
-func (f *Form) PermittedValues(field string, opts ...string) {
+func (f *Form) PermittedValues(field string, opts ...string) { //Implement a PermittedValues method to check that a specific field in the form
 	value := f.Get(field)
 	if value == "" {
 		return

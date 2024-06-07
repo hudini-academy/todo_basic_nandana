@@ -44,9 +44,8 @@ func (m *UserModel) Authenticate(email, password string) (int, error) { //authen
 	} else if err != nil {
 		return 0, err
 	}
-	// Check whether the hashed password and plain-text password provided match
-	// If they don't, we return the ErrInvalidCredentials error.
-	err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
+
+	err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password)) // Check whether the hashed password and plain-text password provided match
 	if err == bcrypt.ErrMismatchedHashAndPassword {
 		return 0, models.ErrInvalidCredentials
 	} else if err != nil {

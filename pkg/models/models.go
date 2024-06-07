@@ -10,6 +10,7 @@ var ErrInvalidCredentials = errors.New("models: invalid credentials")
 var ErrDuplicateEmail = errors.New("models: duplicate email")
 
 type Todo struct {
+	Type     string
 	ID       int
 	Name     string
 	Created  time.Time
@@ -24,4 +25,12 @@ type User struct {
 	HashedPassword []byte
 	Created        time.Time
 	Errors         map[string]string
+}
+
+type Special struct {
+	Type     string
+	ID       int
+	Name     string
+	Created  time.Time
+	Modified time.Time
 }

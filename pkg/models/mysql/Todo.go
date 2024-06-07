@@ -12,16 +12,16 @@ type TodoModel struct { // Define a struct TodoModel which wraps a sql.DB connec
 	InsertStmt *sql.Stmt
 }
 
-func (m *TodoModel) Insert(name, modified string) (int, error) { // This will insert new datas into the database.
+func (m *TodoModel) Insert(name, types, modified string) (int, error) { // This will insert new datas into the database.
 	tx, err := m.DB.Begin() //calling begin to start db transaction
 	if err != nil {
 		return 0, err
 	}
 
-	stmt := `INSERT INTO Todo (name, created, modified) 
-			VALUES(?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))`
+	stmt := `INSERT INTO Todo (name, created, modified,Type) 
+			VALUES(?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY),?)`
 	InsertStmt, _ := tx.Prepare(stmt) //tx.Exec(stmt, name, modified) //Executing the insert into query from stmt and adding the name and modified values passed to fn
-	result, err := InsertStmt.Exec(name, modified)
+	result, err := InsertStmt.Exec(name, modified, types)
 	if err != nil {
 		tx.Rollback()
 		return 0, err
@@ -49,10 +49,10 @@ func (m *TodoModel) Get(id int) (*models.Todo, error) { // This will return a sp
 	return s, nil
 }
 
-func (m *TodoModel) Delete(id int) (*models.Todo, error) { //This will delete the specified data
+func (m *TodoModel) Delete(name string) (*models.Todo, error) { //This will delete the specified data
 	stmt := `DELETE FROM Todo 
-    		 WHERE id = ? `
-	_, err := m.DB.Exec(stmt, id) //DB.Exec will perform deletion query
+    		 WHERE name = ? `
+	_, err := m.DB.Exec(stmt, name) //DB.Exec will perform deletion query
 	if err != nil {
 		return nil, err
 	}
@@ -95,7 +95,6 @@ func (m *TodoModel) GetAll() ([]*models.Todo, error) { // This will return all t
 }
 
 func (m *TodoModel) ErrorManage(errors map[string]string) (*models.Todo, error) {
-	//task_array := []*models.Todo{}
 	s := &models.Todo{Errors: make(map[string]string)}
 
 	if len(errors) > 0 {
@@ -105,8 +104,5 @@ func (m *TodoModel) ErrorManage(errors map[string]string) (*models.Todo, error) 
 		}
 
 	}
-	// s.Errors = errors
-	// task_array = append(task_array, s)
-	// log.Println(task_array)
 	return s, nil
 }

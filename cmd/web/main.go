@@ -17,6 +17,7 @@ type application struct {
 	Todo     *mysql.TodoModel
 	session  *sessions.Session
 	users    *mysql.UserModel
+	Special  *mysql.SpecialTask
 }
 
 func main() {
@@ -43,16 +44,13 @@ func main() {
 		Todo:     &mysql.TodoModel{DB: db},
 		session:  session,
 		users:    &mysql.UserModel{DB: db},
+		Special:  &mysql.SpecialTask{DB: db},
 	}
-	// tlsConfig := &tls.Config{
-	// 	PreferServerCipherSuites: true,
-	// 	CurvePreferences:         []tls.CurveID{tls.X25519, tls.CurveP256},
-	// }
+
 	srv := &http.Server{
-		Addr:     *addr,
-		ErrorLog: errorLog,
-		Handler:  a.routes(),
-		//TLSConfig:    tlsConfig,
+		Addr:         *addr,
+		ErrorLog:     errorLog,
+		Handler:      a.routes(),
 		IdleTimeout:  time.Minute,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
