@@ -15,8 +15,7 @@ type UserModel struct {
 	DB *sql.DB
 }
 
-// We'll use the Insert method to add a new record to the users table.
-func (m *UserModel) Insert(name, email, password string) error {
+func (m *UserModel) Insert(name, email, password string) error { // Insert method to add a new record to the users table.
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), 12)
 	if err != nil {
 		return err
@@ -34,10 +33,7 @@ func (m *UserModel) Insert(name, email, password string) error {
 	return err
 }
 
-// We'll use the Authenticate method to verify whether a user exists with
-// the provided email address and password. This will return the relevant
-// user ID if they do.
-func (m *UserModel) Authenticate(email, password string) (int, error) {
+func (m *UserModel) Authenticate(email, password string) (int, error) { //authenticate user
 	var id int
 	var hashedPassword []byte
 	row := m.DB.QueryRow("SELECT id, hashed_password FROM users WHERE email = ?", email)

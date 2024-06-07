@@ -64,39 +64,3 @@ func main() {
 	errorLog.Fatal(errr)
 
 }
-
-//ADD ONS :
-
-//To get an environment variable use GetEnv. Also use SetEnv to set a new environment
-// addr := os.Getenv("SNIPPETBOX_ADDR")
-// os.Setenv("FOO", "1")
-// log.Println("Foo:", os.Getenv("FOO"))
-
-// The below code will display the whole environment variables of the OS
-//for _, e := range os.Environ() {
-// 	pair := strings.SplitN(e, "=", 2)
-// 	fmt.Println(pair[0])
-// }
-
-//METHOD1
-//changed from "err := http.ListenAndServe(*addr, mux)" to :(for passing the serverstruct)
-//changed from "log.Fatal(err)" to : (passed the errorlog of serverstruct as err)
-
-//METHOD 2
-//logging the information and error of current file. 3 parameters are writer,prefix string and the data passed,"|" passed as appending all items together
-//infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-//errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
-
-//:we create a *server struct* to create a new error logger instead of inbuilt logger
-// srv := &http.Server{
-// 	Addr:     *addr,
-// 	ErrorLog: errorLog,
-// 	Handler:  mux,
-// }
-//changed from "log.Printf("Starting server on :%s", *addr)" to:
-//infoLog.Printf("Starting server on %s", *addr)
-
-//err := srv.ListenAndServe()
-//errorLog.Fatal(err)
-
-//sql.Open("mysql", "web:pass@/Todo?parseTime=true")	//mysql is driver name,2nd parameter describes how to connect to a db

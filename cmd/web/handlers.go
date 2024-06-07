@@ -132,6 +132,7 @@ func (a *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println((err.Error()))
 		http.Error(w, "Internal Server Error2", 500)
+
 	}
 }
 
@@ -151,6 +152,7 @@ func (a *application) signupUser(w http.ResponseWriter, r *http.Request) {
 	if errr != nil {
 		log.Println((errr.Error()))
 		http.Error(w, "Internal Server Error2", 500)
+
 	}
 	if err == models.ErrDuplicateEmail {
 		form.Errors.Add("email", "Address is already in use")
@@ -192,77 +194,18 @@ func (a *application) loginUser(w http.ResponseWriter, r *http.Request) {
 	if err == models.ErrInvalidCredentials {
 		form.Errors.Add("generic", "Email or Password is incorrect")
 		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+		a.session.Put(r, "flash", "Email or Password is incorrect! ")
 	} else if err != nil {
 		a.serverError(w, err)
 		return
 	}
-	a.session.Put(r, "ID", id)
+	a.session.Put(r, "userID", id)
+
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
 	app.session.Remove(r, "userID")
-	app.session.Put(r, "flash", "You've been logged out successfully!")
+	app.session.Put(r, "flash", "You've been logged out successfully! ")
 	http.Redirect(w, r, "/", 303)
 }
-
-//ADDITIONS :
-
-//STRUCTURE TASK
-// type Tasks struct {
-// 	Task_id   int
-// 	Task_name string
-// }
-// var id int = 0
-
-//DISPLAY PAGE
-// func (a *application) Display(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
-// 	if err != nil || id < 1 {
-// 		http.NotFound(w, r)
-// 		return
-// 	}
-// 	s, err := a.Todo.Get(id)
-// 	if err == models.ErrNoRecord {
-// 		a.notFound(w)
-// 		return
-// 	} else if err != nil {
-// 		a.errorLog.Println(err.Error())
-// 		return
-// 	}
-// 	tmpl, err := template.ParseFiles("./ui/html/Display.page.tmpl")
-// 	if err != nil {
-// 		a.errorLog.Println((err.Error()))
-// 		http.Error(w, "Internal Server Error1", 500)
-// 		return
-// 	}
-// 	Task_array = append(Task_array, s)
-// 	//fmt.Fprintf(w, "%v", s)
-
-// 	err = tmpl.Execute(w, Task_array)
-// 	if err != nil {
-// 		log.Println((err.Error()))
-// 		http.Error(w, "Internal Server Error", 500)
-// 	}
-//}
-
-//PRINTING THE WHOLE DATA FROM GetAll() IN TERMINAL
-// for _, Todo := range s {
-// 	fmt.Fprintf(w, "%v\n", Todo)
-// }
-
-//TAKING THE ID AND NAME FOR UPDATE THROUGH FORM
-//id1, _ := strconv.Atoi(r.FormValue("ID"))
-//name1 := r.FormValue("update_name")
-// id1, _ := strconv.Atoi(r.URL.Query().Get("id")) //Getting the id and name from url
-// 	name1 := r.URL.Query().Get("name")
-
-//a.infoLog.Println("App page running")
-
-//CREATING INSTANCE OF Tasks STRUCTURE AND TAKING VALUES FROM FORM AND APPENDING IT TO THE SLICE Task_array
-// id++
-// details := Tasks{
-// 	Task_id:   id,
-// 	Task_name: r.FormValue("todoText"),
-// }
-// Task_array = append(Task_array, details)
